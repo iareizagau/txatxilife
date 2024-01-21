@@ -43,26 +43,46 @@
 <script type="text/javascript" src="{% static 'js/locationfound.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/mapClick.js' %}"></script>
 <script  type="text/javascript">
-    console.log("{{ interestPoints }}");
-    {% for points in interestPoints %}
-        var longitude = "{{ points.longitude }}";
-        var latitude = "{{ points.latitude }}";
-        var longitude = parseFloat(longitude.replace(",", "."));
-        var latitude = parseFloat(latitude.replace(",", "."));
-        console.log(longitude, latitude);
-    {% endfor %}
-    console.log("{{ CamperNightPoints }}");
-    {% for points in CamperNightPoints %}
-        var longitude = "{{ points.longitude }}";
-        var latitude = "{{ points.latitude }}";
-        var longitude = parseFloat(longitude.replace(",", "."));
-        var latitude = parseFloat(latitude.replace(",", "."));
-        console.log(latitude, longitude);
-        markersCamperNightPoint.addLayer(L.marker([latitude, longitude])).bindPopup();
-        map.addLayer(markersCamperNightPoint);
-        var overlayMaps = {};
-        overlayMaps['night'] = markersCamperNightPoint;
-        L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
-    {% endfor %}
+    var first_time_location = 0;
+    map.on('locationfound', function (e) {
+        console.log("first_time_location 0", first_time_location);
+        if (first_time_location == 0) {
+        console.log("first_time_location 1", first_time_location);
+        console.log('Location found:', e);
+        var km = 150;
+        var km2m = km * 1000;
+        circle = new L.circle(e.latlng, km2m).setStyle({color: 'green'}).addTo(map);
+        var circleBounds = circle.getBounds();
+        var combinedBounds = L.latLngBounds(circleBounds.getSouthWest(), circleBounds.getNorthEast());
+        combinedBounds.extend(e.latlng);
+        console.log("combinedBounds", combinedBounds);
+        map.fitBounds(combinedBounds);
+        {% for points in interestPoints %}
+            var longitude = "{{ points.longitude }}";
+            var latitude = "{{ points.latitude }}";
+            var longitude = parseFloat(longitude.replace(",", "."));
+            var latitude = parseFloat(latitude.replace(",", "."));
+
+        {% endfor %}
+        {% for points in CamperNightPoints %}
+            var longitude = "{{ points.longitude }}";
+            var latitude = "{{ points.latitude }}";
+            var longitude = parseFloat(longitude.replace(",", "."));
+            var latitude = parseFloat(latitude.replace(",", "."));
+            var fromLatLng = new L.LatLng(e.latlng['lat'], e.latlng['lng']);
+            var toLatLng = new L.latLng(latitude, longitude);
+            var distance_geo = fromLatLng.distanceTo(toLatLng)/1000;
+            if (distance_geo < km2m){
+                markersCamperNightPoint.addLayer(L.marker([latitude, longitude])).bindPopup();
+                map.addLayer(markersCamperNightPoint);
+                var overlayMaps = {};
+                overlayMaps['night'] = markersCamperNightPoint;
+                L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
+            }
+        {% endfor %}
+        }
+        first_time_location = first_time_location + 1;
+});
+
 </script>
 {% endblock %}
