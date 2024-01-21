@@ -21,7 +21,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-sm-12">
-            {{ interestPoints }}
+            {% for point in interestPoints %}
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="..." alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{ point.description }}</p>
+              </div>
+            </div>
+            {% endfor %}
             {{ CamperNightPoints }}
         </div>
         <div class="col-md-6 col-sm-12">
