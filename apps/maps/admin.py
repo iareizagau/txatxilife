@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, InterestPoint, ImageInterestPoint, CamperNightPoint
+from .models import Category, InterestPoint, ImageInterestPoint, CamperNightPoint, ImageCamperNightPoint
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -28,3 +28,10 @@ class CamperNightPointAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CamperNightPoint, CamperNightPointAdmin)
+
+class ImageCamperNightPointAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "description")
+
+
+admin.site.register(ImageCamperNightPoint, ImageCamperNightPointAdmin)
+
