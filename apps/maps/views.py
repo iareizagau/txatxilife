@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy, reverse
 
 from .models import InterestPoint, CamperNightPoint
 
 
-class MapHome(DetailView):
+class InterestPointTemplateView(TemplateView):
     template_name = 'maps/home.html'
 
     def get_context_data(self, **kwargs):

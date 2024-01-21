@@ -21,7 +21,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-sm-12">
-            hola
+            {{ interestPoints }}
+            {{ CamperNightPoints }}
         </div>
         <div class="col-md-6 col-sm-12">
             <div id="map"></div>
@@ -33,9 +34,34 @@
     var latitude = 40.078774770944534;
     var longitude = -3.7004158795299302;
     var markersSearch = new L.markerClusterGroup();
+    var markersInterestPoint = new L.markerClusterGroup();
+    var markersCamperNightPoint = new L.markerClusterGroup();
     var click_mark = new L.markerClusterGroup();
     var circle = new L.circle();
 </script>
 <script type="text/javascript" src="{% static 'js/main_leaflet.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/mapClick.js' %}"></script>
+<script  type="text/javascript">
+    console.log("{{ interestPoints }}");
+    {% for points in interestPoints %}
+        var longitude = "{{ points.longitude }}";
+        var latitude = "{{ points.latitude }}";
+        var longitude = parseFloat(longitude.replace(",", "."));
+        var latitude = parseFloat(latitude.replace(",", "."));
+        console.log(longitude, latitude);
+    {% endfor %}
+    console.log("{{ CamperNightPoints }}");
+    {% for points in CamperNightPoints %}
+        var longitude = "{{ points.longitude }}";
+        var latitude = "{{ points.latitude }}";
+        var longitude = parseFloat(longitude.replace(",", "."));
+        var latitude = parseFloat(latitude.replace(",", "."));
+        console.log(latitude, longitude);
+        markersCamperNightPoint.addLayer(L.marker([latitude, longitude])).bindPopup();
+        map.addLayer(markersCamperNightPoint);
+        var overlayMaps = {};
+        overlayMaps['night'] = markersCamperNightPoint;
+        L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
+    {% endfor %}
+</script>
 {% endblock %}

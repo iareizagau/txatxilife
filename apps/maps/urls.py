@@ -1,11 +1,11 @@
 from django.urls import path, re_path, include
-from .views import MapHome
+from .views import InterestPointTemplateView
 from .views import CreateInterestPoint, UpdateInterestPoint, CreateCamperNightPoint, UpdateCamperNightPoint
 
 app_name = 'maps'
 
 urlpatterns = [
-    path('home', MapHome.as_view(), name='home'),
+    path('home', InterestPointTemplateView.as_view(), name='home'),
     path('InterestPoint/create', CreateInterestPoint.as_view(), name='CreateInterestPoint'),
     path('InterestPoint/<pk>/update', UpdateInterestPoint.as_view(), name='UpdateInterestPoint'),
 
