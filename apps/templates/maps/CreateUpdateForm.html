@@ -5,12 +5,12 @@
 
 
 {% block content %}
-
-
-<form method="post" class="form-control" enctype="multipart/form-data">{% csrf_token %}
-    <h2>{{ form_title }}</h2>
-    {{ form.as_div }}
-    <input type="submit" class="btn btn-primary" value="Save">
-</form>
+<div class="container">
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        <h2>{{ form_title }}</h2>
+        {{ form.as_div }}
+        <input type="submit" class="btn btn-primary mt-2 md-2" value="Save">
+    </form>
+</div>
 
 {% endblock %}

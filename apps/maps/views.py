@@ -29,7 +29,7 @@ class CreateInterestPoint(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_title'] = 'Create Community'
+        context['form_title'] = 'Create Interest Point'
         return context
 
 
@@ -56,5 +56,5 @@ class UpdateInterestPoint(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form_title'] = 'Create Community'
+        context['form_title'] = 'Update Interest Point'
         return context

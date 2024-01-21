@@ -121,7 +121,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                {% if request.user.username == 'admin' %}<li class="nav-item"><a style="font-family:verdana" href="{% url 'admin_tool' %}" class="nav-link px-2 text-white">admin_tool</a></li>{% endif %}
+                {% if request.user.username == 'admin' %}<li class="nav-item"><a style="font-family:verdana" href="#" class="nav-link px-2 text-white">admin_tool</a></li>{% endif %}
                 <li class="nav-item"><a style="font-family:verdana" href="#" class="nav-link px-2 text-white">Euskalmet</a></li>
                 <li class="nav-item"><a style="font-family:verdana" href="#" class="nav-link px-2 text-white">{% trans "Kontaktua" %}</a></li>
             </ul>
@@ -161,19 +161,19 @@
 </header>
 
 <body>
-
 {% block content %} {% endblock %}
+</body>
 <!-- Footer -->
 <footer>
     <a id="blink" href="https://www.paypal.com/donate/?hosted_button_id=A69Z63Q2F22E2" class="btn btn-warning">{% trans 'Dohaintza egin' %}</a>
     <a href="https://play.google.com/store/apps/details?id=eus.mundubertikala.twa"><img src="{% static '/images/google_play.png' %}" width=150px ></img></a>
     <ul class="nav justify-content-center">
-      <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-muted">Mundubertikala</a></li>
-      <li class="nav-item"><a href="{% url 'core:lege_oharra' %}" class="nav-link px-2 text-muted">{% trans 'Lege Oharra' %}</a></li>
-      <li class="nav-item"><a href="{% url 'core:cookie_politika' %}" class="nav-link px-2 text-muted">{% trans 'Cookiei buruzko oharra' %}</a></li>
-      <li class="nav-item"><a href="{% url 'core:datu_babesa' %}" class="nav-link px-2 text-muted">{% trans 'Datuen Babeserako politika' %}</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Txatxilife</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">{% trans 'Lege Oharra' %}</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">{% trans 'Cookiei buruzko oharra' %}</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">{% trans 'Datuen Babeserako politika' %}</a></li>
     </ul>
-    <p class="text-center text-muted">&copy; 2023 Mundu bertikala</p>
+    <p class="text-center text-muted">&copy; 2024 Txatxilife </p>
 </footer>
 
 
@@ -190,5 +190,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 -->
-</body>
+
 </html>
