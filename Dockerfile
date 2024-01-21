@@ -23,8 +23,8 @@ COPY requirements.txt $APP_HOME/
 RUN pip install --upgrade pip
 
 RUN pip install -r requirements.txt
-COPY . /txatxilife/
-
+COPY . $APP_HOME/
+RUN ls -l $APP_HOME
 
 # Changing ownership of all files and folders in work dir to user
 RUN chown -R dockeruser:dockeruser $APP_HOME
