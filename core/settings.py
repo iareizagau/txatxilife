@@ -18,7 +18,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
-DEBUG = True
+
 # load production server from .env
 ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1',
@@ -130,6 +130,8 @@ STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'apps/static'),
 )
 
+MEDIA_ROOT = os.path.join(CORE_DIR, 'apps/media')
+MEDIA_URL = '/media/'
 
 LANGUAGES = (
     ('en', _('Ingelesa')),

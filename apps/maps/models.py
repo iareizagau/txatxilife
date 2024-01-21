@@ -11,7 +11,8 @@ def camper_night_point_upload_to(instance, filename):
 
 def interest_point_upload_to(instance, filename):
     print(f"****{instance}, {filename}")
-    return os.path.join('interest_point/', filename)
+    path = os.path.join('interest_point/', filename)
+    return path
 
 
 class Category(models.Model):
@@ -41,6 +42,9 @@ class InterestPoint(models.Model):
     longitude = models.FloatField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
 
 class CamperNightPoint(models.Model):
@@ -77,7 +81,7 @@ class ImageInterestPoint(models.Model):
     interest_point_id = models.ForeignKey(InterestPoint, on_delete=models.CASCADE)
     title = models.CharField(max_length=210)
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to=interest_point_id)
+    image = models.ImageField(upload_to=interest_point_upload_to)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -90,7 +94,7 @@ class ImageCamperNightPoint(models.Model):
     camper_night_point_id = models.ForeignKey(CamperNightPoint, on_delete=models.CASCADE)
     title = models.CharField(max_length=210)
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to=camper_night_point_id)
+    image = models.ImageField(upload_to=camper_night_point_upload_to)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

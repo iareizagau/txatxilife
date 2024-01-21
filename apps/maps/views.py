@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy, reverse
 
 from .models import InterestPoint, CamperNightPoint
+from .models import ImageInterestPoint, ImageCamperNightPoint
 
 
 class InterestPointTemplateView(TemplateView):
@@ -13,7 +14,10 @@ class InterestPointTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['interestPoints'] = InterestPoint.objects.all()
+        context['interestPointsImages'] = ImageInterestPoint.objects.all()
+
         context['CamperNightPoints'] = CamperNightPoint.objects.all()
+        context['CamperNightPointsImages'] = ImageCamperNightPoint.objects.all()
         return context
 
 
@@ -34,8 +38,10 @@ class CreateInterestPoint(CreateView):
         for field_name in exclude_fields:
             form.fields.pop(field_name, None)
 
+        exclude_fields = ['category']
         for field_name, field in form.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            if field_name not in exclude_fields:
+                field.widget.attrs['class'] = 'form-control'
         return form
 
     def get_context_data(self, **kwargs):
