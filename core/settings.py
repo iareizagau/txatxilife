@@ -6,6 +6,8 @@ Copyright (c) 2019 - present AppSeed.us
 import os
 from decouple import config
 from unipath import Path
+from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent
@@ -16,9 +18,11 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
-
+DEBUG = True
 # load production server from .env
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1')]
+ALLOWED_HOSTS = ['localhost',
+                 '127.0.0.1',
+                 config('SERVER', default='127.0.0.1')]
 
 # Application definition
 
@@ -29,13 +33,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.home'  # Enable the inner home (home)
+    'apps.home',  # Enable the inner home (home)
+    'apps.maps',
+    'pwa',
+    'parler',
+    'rosetta',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # multi language
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -121,5 +130,22 @@ STATICFILES_DIRS = (
 )
 
 
-#############################################################
-#############################################################
+LANGUAGES = (
+    ('en', _('Ingelesa')),
+    ('eu', _('Euskara')),
+    ('es', _('Gaztelera')),
+)
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'eu', },  # Basque
+        {'code': 'en', },  # English
+        {'code': 'es', },  # Spanish
+    ),
+    'default': {
+        'fallbacks': ['eu'],
+        'hide_untranslated': False,
+    }
+}
+
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale/')]

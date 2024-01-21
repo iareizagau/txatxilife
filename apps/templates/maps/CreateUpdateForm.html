@@ -1,0 +1,16 @@
+{% extends 'maps/base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+
+{% block content %}
+
+
+<form method="post" class="form-control" enctype="multipart/form-data">{% csrf_token %}
+    <h2>{{ form_title }}</h2>
+    {{ form.as_div }}
+    <input type="submit" class="btn btn-primary" value="Save">
+</form>
+
+{% endblock %}

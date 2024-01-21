@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="eu">
+
+<head>
+    {% load pwa %}
+    {% pwa_meta_data %}
+    {% pwa_meta_script %}
+
+    {% load static %}
+    {% load i18n %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Euskal Herriko eskaladako krosikak ikusteko webgunea"/>
+    <meta name="keywords" content="Eskalada, Euskal Herria, Krokisak, Eguraldia, Eskalada ikastaroak"/>
+    <meta name="author" content="mundubertikala@gmail.com"/>
+    <meta property="og:title" content="Croquis de escalada, Eskaladako krokisak"/>
+    <meta property="og:image" content="{% static 'images/main.jpg' %}"/>
+    <meta property="og:description" content="Eskaladako krosikak ikusteko webgunea"/>
+    <meta property="og:url" content="https://mundubertikala.eus"/>
+    <meta property=”og:type” content="website"/>
+    <meta property="og:site_name" content="Mundu bertikala" />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "WebSite",
+        "name": "Mundu bertikala",
+        "url": "https://mundubertikala.eus",
+        "description": "",
+        "image": "{% static 'images/main.jpg' %}",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://mundubertikala.eus/eguraldia/"
+        }
+    }
+    </script>
+
+
+    <link rel="icon" type="image/x-icon" href="media/images/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="navbar.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <!-- Maps -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/dist/L.Control.Locate.min.css"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+          integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+          crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css"/>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+            integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+            crossorigin="">
+    </script>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+            integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+            crossorigin=""></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.76.1/dist/L.Control.Locate.min.js"
+            charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RME206CNR5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RME206CNR5');
+
+    </script>
+
+    <title>{% block title %}{% endblock %} | Mundu bertikala</title>
+    <style>
+<!--        header {-->
+<!--          position: fixed;-->
+<!--          left: 0px;-->
+<!--          right: 0px;-->
+<!--          z-index: 1;-->
+<!--        }-->
+        footer {
+          //position: fixed;
+          text-align: center;
+          padding-top: 5px;
+          padding-bottom: 1px;
+          background-color: black;
+          color: white;
+          left: 0px;
+          right: 0px;
+          margin-bottom: 0px;
+          margin-top: 0;
+          bottom: 0px;
+          //border-top: 10px solid red;
+        }
+    </style>
+</head>
+
+<header class="p-3 bg-dark text-white">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}" style="font-family:verdana">MUNDU BERTIKALA</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if request.user.username == 'admin' %}<li class="nav-item"><a style="font-family:verdana" href="{% url 'admin_tool' %}" class="nav-link px-2 text-white">admin_tool</a></li>{% endif %}
+                <li class="nav-item"><a style="font-family:verdana" href="#" class="nav-link px-2 text-white">Euskalmet</a></li>
+                <li class="nav-item"><a style="font-family:verdana" href="#" class="nav-link px-2 text-white">{% trans "Kontaktua" %}</a></li>
+            </ul>
+            <ul class="navbar-nav navbar-right ml-auto">
+              {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" style="font-family:verdana" href="#">{% trans 'Nire gunea' %}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" style="font-family:verdana" href="#">{% trans 'Izena eman' %}</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" style="font-family:verdana" href="#">{% trans 'Ongi etorri' %} <b style="color:white;">{{ request.user }}</b></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" style="font-family:verdana" href="#">{% trans 'Irten' %}</a>
+                </li>
+              {% endif %}
+            </ul>
+            {% get_current_language as CURRENT_LANGUAGE %}
+            {% get_available_languages as AVAILABLE_LANGUAGES %}
+            {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ CURRENT_LANGUAGE }}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {% for language in languages %}
+                    <a class="dropdown-item" href="/{{ language.code }}/{{ request.get_full_path|slice:'4:' }}">{{ language.code }}</a>
+                  {% endfor %}
+              </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<body>
+
+{% block content %} {% endblock %}
+<!-- Footer -->
+<footer>
+    <a id="blink" href="https://www.paypal.com/donate/?hosted_button_id=A69Z63Q2F22E2" class="btn btn-warning">{% trans 'Dohaintza egin' %}</a>
+    <a href="https://play.google.com/store/apps/details?id=eus.mundubertikala.twa"><img src="{% static '/images/google_play.png' %}" width=150px ></img></a>
+    <ul class="nav justify-content-center">
+      <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-muted">Mundubertikala</a></li>
+      <li class="nav-item"><a href="{% url 'core:lege_oharra' %}" class="nav-link px-2 text-muted">{% trans 'Lege Oharra' %}</a></li>
+      <li class="nav-item"><a href="{% url 'core:cookie_politika' %}" class="nav-link px-2 text-muted">{% trans 'Cookiei buruzko oharra' %}</a></li>
+      <li class="nav-item"><a href="{% url 'core:datu_babesa' %}" class="nav-link px-2 text-muted">{% trans 'Datuen Babeserako politika' %}</a></li>
+    </ul>
+    <p class="text-center text-muted">&copy; 2023 Mundu bertikala</p>
+</footer>
+
+
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+-->
+</body>
+</html>
