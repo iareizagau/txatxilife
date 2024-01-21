@@ -53,7 +53,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy vaskalatzaileak \
+          gcloud run deploy txatxilife \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/txatxilife \
             --platform managed \
             --allow-unauthenticated \
