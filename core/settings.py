@@ -25,6 +25,8 @@ ALLOWED_HOSTS = ['localhost',
                  config('SERVER', default='127.0.0.1'),
                  'txatxilife-z6zzxsqmma-ew.a.run.app']
 
+CSRF_TRUSTED_ORIGINS = [f"https://txatxilife-z6zzxsqmma-ew.a.run.app"]
+
 # Application definition
 
 INSTALLED_APPS = [
