@@ -6,18 +6,34 @@ from django.urls import reverse_lazy, reverse
 
 from .models import InterestPoint, CamperNightPoint
 from .models import ImageInterestPoint, ImageCamperNightPoint
+from django.core.serializers import serialize
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 
 
-class InterestPointTemplateView(TemplateView):
+class InterestPointsMap(TemplateView):
     template_name = 'maps/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['interestPoints'] = InterestPoint.objects.all()
-        context['interestPointsImages'] = ImageInterestPoint.objects.all()
-
+        interest_points_data = serialize('json', context['interestPoints'])
+        context['interestPoints_list'] = interest_points_data
+        context['interestPointsImages'] = ImageInterestPoint.objects.distinct('interest_point_id')
         context['CamperNightPoints'] = CamperNightPoint.objects.all()
         context['CamperNightPointsImages'] = ImageCamperNightPoint.objects.all()
+        return context
+
+
+class InterestPointDetailView(TemplateView):
+    template_name = 'maps/DetailView.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = get_object_or_404(InterestPoint, id=kwargs['pk'])
+        photos = ImageInterestPoint.objects.filter(interest_point_id=post)
+        context['post'] = post
+        context['photos'] = photos
         return context
 
 

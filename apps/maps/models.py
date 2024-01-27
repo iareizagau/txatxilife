@@ -28,6 +28,7 @@ class Category(models.Model):
 class InterestPoint(models.Model):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=210)
+    short_description = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     category = models.ManyToManyField(Category)
     country_code = models.CharField(max_length=10, null=True, blank=True)
@@ -40,6 +41,7 @@ class InterestPoint(models.Model):
     address = models.CharField(max_length=250, blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    image = models.ImageField(blank=True, null=True, upload_to=interest_point_upload_to)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -69,6 +71,7 @@ class CamperNightPoint(models.Model):
     address = models.CharField(max_length=250, blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
+    image = models.ImageField(blank=True, null=True, upload_to=interest_point_upload_to)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

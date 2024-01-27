@@ -1,0 +1,128 @@
+{% extends 'maps/base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+{% include "maps/leaflet.html" %}
+
+<style>
+#map {
+    height: 80vh;
+    border-radius: 5px;
+    font-size: 0px; // para esconder la palabra leaflet
+    //top: 5px;
+    //bottom: 5px;
+    //left: 5px;
+    //margin-right: 0px;
+}
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+<div class="container-fluid">
+    <div class="row">
+    <div class="card mt-2" style="width: 40rem;">
+        <div id="carousel-images" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+            {% for img_point in photos %}
+            <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <img class="d-block w-100" src="{{ img_point.image.url }}" alt="Card image cap" style="max-height: 200px; object-fit: cover;">
+            </div>
+            {% endfor %}
+
+            </div>
+            <a class="carousel-control-prev" href="#carousel-images" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel-images" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.description }}</p>
+            <p class="card-text"><small class="text-muted">Categories:
+                {% for category in post.category.all %}
+                    {{ category.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </small></p>
+        </div>
+    </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+       $('#carousel-images').carousel();
+    });
+</script>
+<script>
+    var zoom_map = 6;
+    var latitude = 40.078774770944534;
+    var longitude = -3.7004158795299302;
+    var markersSearch = new L.markerClusterGroup();
+    var markersInterestPoint = new L.markerClusterGroup();
+    var markersCamperNightPoint = new L.markerClusterGroup();
+    var click_mark = new L.markerClusterGroup();
+    var circle = new L.circle();
+    var overlayMaps = {};
+</script>
+<script type="text/javascript" src="{% static 'js/main_leaflet.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/locationfound.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/mapClick.js' %}"></script>
+<script  type="text/javascript">
+    var first_time_location = 0;
+    map.on('locationfound', function (e) {
+        console.log("first_time_location 0", first_time_location);
+        if (first_time_location == 0) {
+        console.log("first_time_location 1", first_time_location);
+        console.log('Location found:', e);
+        var km = 150;
+        var km2m = km * 1000;
+        circle = new L.circle(e.latlng, km2m).setStyle({color: 'green'}).addTo(map);
+        var circleBounds = circle.getBounds();
+        var combinedBounds = L.latLngBounds(circleBounds.getSouthWest(), circleBounds.getNorthEast());
+        combinedBounds.extend(e.latlng);
+        console.log("combinedBounds", combinedBounds);
+        map.fitBounds(combinedBounds);
+        {% for points in interestPoints %}
+            var longitude = "{{ points.longitude }}";
+            var latitude = "{{ points.latitude }}";
+            var longitude = parseFloat(longitude.replace(",", "."));
+            var latitude = parseFloat(latitude.replace(",", "."));
+            var fromLatLng = new L.LatLng(e.latlng['lat'], e.latlng['lng']);
+            var toLatLng = new L.latLng(latitude, longitude);
+            var distance_geo = fromLatLng.distanceTo(toLatLng)/1000;
+            if (distance_geo < km2m){
+                markersInterestPoint.addLayer(L.marker([latitude, longitude])).bindPopup();
+                map.addLayer(markersInterestPoint);
+            }
+        {% endfor %}
+        {% for points in CamperNightPoints %}
+            var longitude = "{{ points.longitude }}";
+            var latitude = "{{ points.latitude }}";
+            var longitude = parseFloat(longitude.replace(",", "."));
+            var latitude = parseFloat(latitude.replace(",", "."));
+            var fromLatLng = new L.LatLng(e.latlng['lat'], e.latlng['lng']);
+            var toLatLng = new L.latLng(latitude, longitude);
+            var distance_geo = fromLatLng.distanceTo(toLatLng)/1000;
+            if (distance_geo < km2m){
+                markersCamperNightPoint.addLayer(L.marker([latitude, longitude])).bindPopup();
+                map.addLayer(markersCamperNightPoint);
+            }
+        {% endfor %}
+        }
+        overlayMaps['interest'] = markersInterestPoint;
+        overlayMaps['night'] = markersCamperNightPoint;
+        L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
+        first_time_location = first_time_location + 1;
+});
+
+</script>
+{% endblock %}
