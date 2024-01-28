@@ -32,34 +32,32 @@
 
 <div class="container-fluid">
     <div class="row">
-<div class="col-md-6 col-sm-12 mt-2" style="overflow-y: auto; max-height: 90vh;">
-    <div class="row">
-        {% for point in interestPoints.all %}
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <div class="card">
-                    {% for img_point in interestPointsImages %}
-                        {% if img_point.interest_point_id.id == point.id %}
-                            <img class="d-block w-100" src="{{ img_point.image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;">
-                        {% endif %}
-                    {% endfor %}
-                    <div class="card-body">
-                        <a href="{% url 'maps:InterestPointDetailView' point.id %}"><h5 class="card-title">{{ point.title }}</h5></a>
-                        <p class="card-text">{{ point.short_description }}</p>
-                        <p class="card-text">
-                            <small class="text-muted">Categories:
-                                {% for category in point.category.all %}
-                                    {{ category.name }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}
-                            </small>
-                        </p>
+        <div class="col-md-6 col-sm-12 mt-4" style="overflow-y: auto; max-height: 90vh;">
+            <div class="row">
+                {% for point in interestPoints.all %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card d-flex flex-column h-100">
+                            {% for img_point in interestPointsImages %}
+                                {% if img_point.interest_point_id.id == point.id %}
+                                    <img class="d-block w-100" src="{{ img_point.image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;">
+                                {% endif %}
+                            {% endfor %}
+                            <div class="card-body">
+                                <a href="{% url 'maps:InterestPointDetailView' point.id %}"><h5 class="card-title">{{ point.title }}</h5></a>
+                                <p class="card-text">{{ point.short_description }}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">Categories:
+                                        {% for category in point.category.all %}
+                                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
-</div>
-
-
+        </div>
         <div class="col-md-6 col-sm-12">
             <div id="map"></div>
         </div>
