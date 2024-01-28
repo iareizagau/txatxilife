@@ -78,6 +78,7 @@ SOCIALACCOUNT_PROVIDERS = {
 LOGIN_REDIRECT = 'maps:home'
 LOGIN_REDIRECT_URL = 'maps:home'
 LOGOUT_REDIRECT_URL = 'maps:home'  # Este no está haciendo caso, quizás haya que sobreecribir la view
+LOGOUT_URL = 'account_logout'
 LOGIN_URL = 'maps/home'
 ACCOUNT_LOGOUT_REDIRECT = 'maps:home'
 AUTHENTICATION_BACKENDS = [

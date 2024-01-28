@@ -67,7 +67,7 @@
 
     </script>
     -->
-    <title>{% block title %}{% endblock %} | Mundu bertikala</title>
+    <title>{% block title %}{% endblock %} | TxatxiLife</title>
     <style>
 <!--        header {-->
 <!--          position: fixed;-->
@@ -118,7 +118,7 @@
                   <a class="nav-link" style="font-family:verdana" href="#">{% trans 'Ongi etorri' %} <b style="color:white;">{{ request.user }}</b></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" style="font-family:verdana" href="#">{% trans 'Irten' %}</a>
+                  <a class="nav-link" style="font-family:verdana" href="{% url 'account_logout' %}">{% trans 'Irten' %}</a>
                 </li>
               {% endif %}
             </ul>
