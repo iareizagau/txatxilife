@@ -18,7 +18,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
-
+DEBUG = False
 # load production server from .env
 ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1',
@@ -75,12 +75,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-LOGIN_REDIRECT = 'maps:home'
-LOGIN_REDIRECT_URL = 'maps:home'
-LOGOUT_REDIRECT_URL = 'maps:home'  # Este no está haciendo caso, quizás haya que sobreecribir la view
-LOGOUT_URL = 'account_logout'
-LOGIN_URL = 'maps/home'
-ACCOUNT_LOGOUT_REDIRECT = 'maps:home'
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -204,11 +198,19 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale/')]
 
 SITE_ID = 1
 
+LOGIN_REDIRECT = 'maps:home'
+LOGIN_REDIRECT_URL = 'maps:home'
+LOGOUT_REDIRECT_URL = 'maps:home'  # Este no está haciendo caso, quizás haya que sobreecribir la view
+LOGOUT_URL = 'account_logout'
+LOGIN_URL = 'maps/home'
+
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+ACCOUNT_LOGOUT_REDIRECT = 'maps:home'
 
-USE_X_FORWARDED_HOST = True
+
+
