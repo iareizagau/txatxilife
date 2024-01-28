@@ -17,8 +17,8 @@
     //margin-right: 0px;
 }
 .circle-image-marker {
-    height: 52px !important;
-    width: 52px !important;
+    height: 80px !important;
+    width: 80px !important;
     border-radius: 50%;
     border: solid;
     border-color: green;
@@ -110,14 +110,13 @@
             if (distance_geo < km2m){
                 var popupContent = `
                     <div>
-                        <h2>{{points.title}}</h2>
+                        <a href="{% url 'maps:InterestPointDetailView' points.id %}" ><h2>{{points.title}}</h2></a>
                         <h5>{{points.short_description}}</h5>
                     </div>
                 `;
             var customIcon = L.icon({
                 iconUrl: '{{points.image.url}}',
                 className: 'circle-image-marker',
-                iconSize: [100, 100], // set the size of the icon
                 iconAnchor: [16, 16], // set the anchor point of the icon
                 popupAnchor: [0, -8]
             });
