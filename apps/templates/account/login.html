@@ -7,7 +7,32 @@
 {% endblock head_title %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/account_login.css' %}">
+<style>
+    .container {
+        max-width: 600px; /* Set your preferred maximum width */
+        margin: 0 auto;
+    }
 
+    /* Add more styles and media queries as needed for responsiveness */
+    @media screen and (max-width: 600px) {
+        /* Adjust styles for screens with a maximum width of 600px */
+        .container {
+            width: 60%;
+        }
+        h1, h2 {
+            font-size: 20px;
+            margin: 0px;
+        }
+        p, input {
+            font-size: 10px;
+            padding: 8px;
+            margin: 0px;
+        }
+        a[title="Google"] {
+            margin-top: 0px;
+        }
+    }
+</style>
 <div class="container">
     {% element h1 %}
         {% trans "Sign In" %}
@@ -38,4 +63,6 @@
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
     {% endif %}
 </div>
+<script src="{% static 'js/random_background.js' %}"></script>
+
 {% endblock content %}

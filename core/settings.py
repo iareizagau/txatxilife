@@ -118,11 +118,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'bohrxjur1aiqgkrfaotd-postgresql.services.clever-cloud.com',
-        'PORT': 50013,
-        'NAME': 'bohrxjur1aiqgkrfaotd',
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
+        'NAME': os.getenv("DB_NAME"),
         'USER': 'uzpkto9ebsavmvigm631',
-        'PASSWORD': 'DZgGEw0cx6dNEWQRSUUDqe8AemkNCK',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'OPTIONS': {
             'client_encoding': 'UTF8',
             'options': '-c search_path=public'
@@ -209,7 +209,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.getenv("ACCOUNT_DEFAULT_HTTP_PROTOCOL")
 ACCOUNT_LOGOUT_REDIRECT = 'maps:home'
 
 
