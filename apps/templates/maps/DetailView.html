@@ -8,7 +8,7 @@
 
 <style>
 #map {
-    height: 80vh;
+    height: 90vh;
     border-radius: 5px;
     font-size: 0px; // para esconder la palabra leaflet
     //top: 5px;
@@ -24,13 +24,13 @@
 
 
 <div class="container-fluid">
-    <div class="row">
-    <div class="card mt-2" style="width: 40rem;">
-        <div id="carousel-images" class="carousel slide" data-ride="carousel">
+    <div class="row mt-2 mb-2">
+        <div class="col-md-6 col-sm-12 mb-2">
+            <div id="carousel-images" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
             {% for img_point in photos %}
             <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                <img class="d-block w-100" src="{{ img_point.image.url }}" alt="Card image cap" style="max-height: 200px; object-fit: cover;">
+                <img class="d-block w-100" src="{{ img_point.image.url }}" alt="Card image cap" style="max-height: 60vh; object-fit: cover;">
             </div>
             {% endfor %}
 
@@ -44,17 +44,18 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text">{{ post.description }}</p>
-            <p class="card-text"><small class="text-muted">Categories:
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <h5>{{ post.title }}</h5>
+            <p>{{ post.description }}</p>
+            <p>
+                <small class="text-muted">Categories:
                 {% for category in post.category.all %}
                     {{ category.name }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
-            </small></p>
+                </small>
+            </p>
         </div>
-    </div>
-
     </div>
 </div>
 <script>

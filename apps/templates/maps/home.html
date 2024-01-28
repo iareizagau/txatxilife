@@ -8,13 +8,20 @@
 
 <style>
 #map {
-    height: 80vh;
+    height: 90vh;
     border-radius: 5px;
     font-size: 0px; // para esconder la palabra leaflet
     //top: 5px;
     //bottom: 5px;
     //left: 5px;
     //margin-right: 0px;
+}
+.circle-image-marker {
+    height: 52px !important;
+    width: 52px !important;
+    border-radius: 50%;
+    border: solid;
+    border-color: green;
 }
 </style>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -109,11 +116,11 @@
                 `;
             var customIcon = L.icon({
                 iconUrl: '{{points.image.url}}',
-                iconSize: [80, 80], // set the size of the icon
+                className: 'circle-image-marker',
+                iconSize: [100, 100], // set the size of the icon
                 iconAnchor: [16, 16], // set the anchor point of the icon
-                popupAnchor: [0, -8] // set the anchor point for popups (if you have one)
+                popupAnchor: [0, -8]
             });
-                console.log("markersInterestPoint", "{{points.title}}")
                 markersInterestPoint.addLayer(L.marker([latitude, longitude], {icon: customIcon}).bindPopup(popupContent));
             }
         {% endfor %}
@@ -126,21 +133,26 @@
             var toLatLng = new L.latLng(latitude, longitude);
             var distance_geo = fromLatLng.distanceTo(toLatLng)/1000;
             if (distance_geo < km2m){
-            var popupContent = `
-                <div>
-                    <h2>{{points.title}}</h2>
-                    <h5>{{points.short_description}}</h5>
-                </div>
-            `;
-                console.log("markersCamperNightPoint", "{{points.title}}")
-                markersCamperNightPoint.addLayer(L.marker([latitude, longitude]).bindPopup(popupContent));
+                var popupContent = `
+                    <div>
+                        <h2>{{points.title}}</h2>
+                        <h5>{{points.short_description}}</h5>
+                    </div>
+                `;
+                var customIcon = L.icon({
+                    iconUrl: '/media/icons/chatgpt_autocaravana.png',
+                    iconSize: [50, 50], // set the size of the icon
+                    iconAnchor: [16, 16], // set the anchor point of the icon
+                    popupAnchor: [0, -8]
+                });
+                markersCamperNightPoint.addLayer(L.marker([latitude, longitude], {icon: customIcon}).bindPopup(popupContent));
             }
         {% endfor %}
 
         map.addLayer(markersInterestPoint);
         map.addLayer(markersCamperNightPoint);
         var interest = "<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png' width='15' > " + "interest";
-        var night = "night <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png' width='15' > night";
+        var night = "night <img src='/media/icons/chatgpt_autocaravana.png' style='width:30px; height: 30px; vertical-align: middle;'> night";
         var overlayMaps = {};
         overlayMaps[interest] = markersInterestPoint;
         overlayMaps[night] = markersCamperNightPoint;

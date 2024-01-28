@@ -29,8 +29,6 @@ var baseMaps = {
 };
 
 
-const layersControl = L.control.layers(baseMaps, null, { collapsed: false }).addTo(map);
-
 var locateControl = L.control.locate({
     flyTo: false,
     keepCurrentZoomLevel: false,
