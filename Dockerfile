@@ -32,6 +32,8 @@ RUN chown -R dockeruser:dockeruser $APP_HOME
 # Changing to user
 USER dockeruser
 
+RUN python manage.py collectstatic --no-input
+
 #CMD ["gunicorn", "--config", "gunicorn-cfg.py", "core.wsgi"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
