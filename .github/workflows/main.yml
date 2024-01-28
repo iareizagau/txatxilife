@@ -58,6 +58,6 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --region=europe-west1 \
-            --port=8888 \
+            --port=8000 \
             --service-account=cloud-run-django@optimum-shore-409919.iam.gserviceaccount.com
 
