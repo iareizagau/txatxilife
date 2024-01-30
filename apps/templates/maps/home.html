@@ -112,13 +112,17 @@
                         <h5>{{points.short_description}}</h5>
                     </div>
                 `;
-            var customIcon = L.icon({
-                iconUrl: '{{points.image.url}}',
-                className: 'circle-image-marker',
-                iconAnchor: [16, 16], // set the anchor point of the icon
-                popupAnchor: [0, -8]
-            });
+            {% if points.image %}
+                var customIcon = L.icon({
+                    iconUrl: '{{points.image.url}}',
+                    className: 'circle-image-marker',
+                    iconAnchor: [16, 16], // set the anchor point of the icon
+                    popupAnchor: [0, -8]
+                });
                 markersInterestPoint.addLayer(L.marker([latitude, longitude], {icon: customIcon}).bindPopup(popupContent));
+            {% else %}
+                markersInterestPoint.addLayer(L.marker([latitude, longitude]).bindPopup(popupContent));
+            {% endif %}
             }
         {% endfor %}
         {% for points in CamperNightPoints %}
