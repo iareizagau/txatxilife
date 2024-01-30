@@ -18,7 +18,8 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
-
+print("DEBUG", DEBUG)
+print("DB_HOST", os.getenv("DB_HOST"))
 # load production server from .env
 ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1',
@@ -121,7 +122,7 @@ DATABASES = {
         'HOST': os.getenv("DB_HOST"),
         'PORT': os.getenv("DB_PORT"),
         'NAME': os.getenv("DB_NAME"),
-        'USER': 'uzpkto9ebsavmvigm631',
+        'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'OPTIONS': {
             'client_encoding': 'UTF8',
