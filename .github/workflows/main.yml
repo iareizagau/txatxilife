@@ -53,19 +53,19 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy txatxilife
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/txatxilife
-            --platform managed
-            --allow-unauthenticated
-            --region=europe-west1
-            --port=8000
-            --service-account=cloud-run-django@optimum-shore-409919.iam.gserviceaccount.com
-            --set-env-vars ENV=pro
-            --set-env-vars DEBUG=False
-            --set-env-vars ACCOUNT_DEFAULT_HTTP_PROTOCOL=https
-            --set-secrets 'DB_PASSWORD=DB_PASSWORD:latest'
-            --set-secrets 'DB_HOST=DB_HOST:latest'
-            --set-secrets 'DB_NAME=DB_NAME:latest'
+          gcloud run deploy txatxilife \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/txatxilife \
+            --platform managed \
+            --allow-unauthenticated \
+            --region=europe-west1 \
+            --port=8000 \
+            --service-account=cloud-run-django@optimum-shore-409919.iam.gserviceaccount.com \
+            --set-env-vars ENV=pro \
+            --set-env-vars DEBUG=False \
+            --set-env-vars ACCOUNT_DEFAULT_HTTP_PROTOCOL=https \
+            --set-secrets 'DB_PASSWORD=DB_PASSWORD:latest' \
+            --set-secrets 'DB_HOST=DB_HOST:latest' \
+            --set-secrets 'DB_NAME=DB_NAME:latest' \
             --set-secrets 'DB_PORT=DB_PORT:latest'
 
 
