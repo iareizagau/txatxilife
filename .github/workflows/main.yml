@@ -67,6 +67,7 @@ jobs:
             --set-secrets 'DB_HOST=DB_HOST:latest' \
             --set-secrets 'DB_NAME=DB_NAME:latest' \
             --set-secrets 'DB_PORT=DB_PORT:latest'
+          
 
 
 
