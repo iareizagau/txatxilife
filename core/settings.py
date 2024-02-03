@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'pwa',
     'parler',
     'rosetta',
+    'ninja_jwt',
+    'ninja_extra',
 ]
 
 MIDDLEWARE = [
