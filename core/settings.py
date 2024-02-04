@@ -7,6 +7,15 @@ import os
 from decouple import config
 from unipath import Path
 from django.utils.translation import gettext_lazy as _
+from google.oauth2 import service_account
+import tempfile
+import json
+
+def key_tempfile(key_string):
+    key_dict = json.loads(key_string)
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        json.dump(key_dict, temp_file)
+        return temp_file.name
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -209,4 +218,8 @@ ACCOUNT_LOGOUT_REDIRECT = 'maps:home'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SERVICE_ACCOUNT = os.getenv('SERVICE_ACCOUNT')
+if SERVICE_ACCOUNT and DEBUG is False:
+    BUCKET_SECRET_PATH = key_tempfile(SERVICE_ACCOUNT)
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT)
 
