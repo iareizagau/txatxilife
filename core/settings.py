@@ -219,8 +219,11 @@ ACCOUNT_LOGOUT_REDIRECT = 'maps:home'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SERVICE_ACCOUNT = os.getenv('SERVICE_ACCOUNT')
+GS_BUCKET_NAME = 'txatxilife'
+GS_MEDIA_BUCKET_NAME = 'txatxilife'
 if SERVICE_ACCOUNT:
     if DEBUG is False:
         SERVICE_ACCOUNT = key_tempfile(SERVICE_ACCOUNT)
+
     GS_CREDENTIALS = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT)
 
