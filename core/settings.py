@@ -220,6 +220,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SERVICE_ACCOUNT = os.getenv('SERVICE_ACCOUNT')
 if SERVICE_ACCOUNT and DEBUG is False:
-    BUCKET_SECRET_PATH = key_tempfile(SERVICE_ACCOUNT)
+    SERVICE_ACCOUNT = key_tempfile(SERVICE_ACCOUNT)
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT)
 
