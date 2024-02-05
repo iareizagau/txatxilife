@@ -6,12 +6,12 @@ import uuid
 
 def camper_night_point_upload_to(instance, filename):
     print(f"****{instance}, {filename}")
-    return os.path.join('camper_night_point/', filename)
+    return os.path.join('media/camper_night_point/', filename)
 
 
 def interest_point_upload_to(instance, filename):
     print(f"****{instance}, {filename}")
-    path = os.path.join('interest_point/', filename)
+    path = os.path.join('media/interest_point/', filename)
     return path
 
 

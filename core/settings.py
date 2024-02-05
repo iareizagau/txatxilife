@@ -11,6 +11,7 @@ from google.oauth2 import service_account
 import tempfile
 import json
 
+
 def key_tempfile(key_string):
     key_dict = json.loads(key_string)
     with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
@@ -167,19 +168,6 @@ USE_TZ = True
 #############################################################
 # SRC: https://devcenter.heroku.com/articles/django-assets
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(CORE_DIR, 'apps/static'),
-)
-
-MEDIA_ROOT = os.path.join(CORE_DIR, 'apps/media')
-MEDIA_URL = '/media/'
-
 LANGUAGES = (
     ('en', _('Ingelesa')),
     ('eu', _('Euskara')),
@@ -220,10 +208,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SERVICE_ACCOUNT = os.getenv('SERVICE_ACCOUNT')
 GS_BUCKET_NAME = 'txatxilife'
-GS_MEDIA_BUCKET_NAME = 'txatxilife'
-if SERVICE_ACCOUNT:
+GS_PROJECT_ID = 'optimum-shore-409919'
+GS_FILE_OVERWRITE = True
+GS_MAX_MEMORY_SIZE = 0
+GS_BLOB_CHUNK_SIZE = None
+GS_CUSTOM_ENDPOINT_ = 'https://storage.googleapis.com'
+GS_LOCATION = ''
+if SERVICE_ACCOUNT and False:
     if DEBUG is False:
         SERVICE_ACCOUNT = key_tempfile(SERVICE_ACCOUNT)
-
     GS_CREDENTIALS = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT)
+    STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'  # For serving static files directly from GCS
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'  # For storing media files in GCS
+    STATIC_URL = f'{GS_CUSTOM_ENDPOINT_}/{GS_BUCKET_NAME}/apps/static/'
+    MEDIA_URL = f'{GS_CUSTOM_ENDPOINT_}/{GS_BUCKET_NAME}/apps/media/'
 
+STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(CORE_DIR, 'apps/static')]
+
+MEDIA_ROOT = os.path.join(CORE_DIR, 'apps/media')
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'

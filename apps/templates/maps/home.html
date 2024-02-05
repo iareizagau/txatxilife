@@ -32,8 +32,15 @@
 
 <div class="container-fluid">
     <div class="row">
+        <div class="col-4">
+            <label for="slider">Aukeratu erradioa:</label>
+            <input type="range" id="slider" name="slider" min="0" max="500" value="150">
+            <p id="selectedValue"></p>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6 col-sm-12 mt-4" style="overflow-y: auto; max-height: 90vh;">
-            <div class="row">
+            <div id="interestPoints" class="row">
                 {% for point in interestPoints.all %}
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <div class="card d-flex flex-column h-100">
@@ -57,6 +64,7 @@
                     </div>
                 {% endfor %}
             </div>
+            <div id="interestPoints2" class="row"></div>
         </div>
         <div class="col-md-6 col-sm-12">
             <div id="map"></div>
@@ -64,11 +72,20 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        {% for point in interestPoints %}
-            $('#carousel{{ forloop.counter }}').carousel();
-        {% endfor %}
+    var km = 150;
+    var km2m = km * 1000;
+    const selectedValue = document.getElementById('selectedValue');
+    selectedValue.textContent = `Aukeratutako erradioa: ${km} km`;
+    slider.addEventListener('input', () => {
+      selectedValue.textContent = `Aukeratutako erradioa: ${slider.value} km`;
+      var km = parseInt(slider.value);
+      var km2m = km * 1000;
+      console.log("slide", km2m);
+        //map.fireEvent('locationfound', { km2m:km * 1000 });
     });
+    // Get the element with the id "myElement"
+    var element = document.getElementById("interestPoints");
+    var element2 = document.getElementById("interestPoints2");
 </script>
 <script>
     var zoom_map = 6;
@@ -79,7 +96,6 @@
     var markersCamperNightPoint = new L.markerClusterGroup();
     var click_mark = new L.markerClusterGroup();
     var circle = new L.circle();
-
 </script>
 <script type="text/javascript" src="{% static 'js/main_leaflet.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/locationfound.js' %}"></script>
@@ -89,55 +105,101 @@
 
     map.on('locationfound', function (e) {
         console.log("first_time_location 0", first_time_location);
+        if (element) {
+        // For example, let's change the background color
+         element.style.display = "none";
+        } else {
+        console.error("Element not found!");
+        }
+        if (circle) {
+                map.removeLayer(circle);
+                circle = new L.circle();
+                }
+        if (markersSearch) {
+                map.removeLayer(markersSearch);
+                markersSearch = new L.markerClusterGroup();
+            }
+        if (markersInterestPoint) {
+                map.removeLayer(markersInterestPoint);
+                markersInterestPoint = new L.markerClusterGroup();
+            }
+        if (markersCamperNightPoint) {
+                map.removeLayer(markersCamperNightPoint);
+                markersCamperNightPoint = new L.markerClusterGroup();
+            }
         if (first_time_location == 0) {
-        var km = 150;
-        var km2m = km * 1000;
+        console.log("circle", km2m);
         circle = new L.circle(e.latlng, km2m).setStyle({color: 'green'}).addTo(map);
         var circleBounds = circle.getBounds();
         var combinedBounds = L.latLngBounds(circleBounds.getSouthWest(), circleBounds.getNorthEast());
         combinedBounds.extend(e.latlng);
         map.fitBounds(combinedBounds);
-        {% for points in interestPoints %}
-            var longitude = "{{ points.longitude }}";
-            var latitude = "{{ points.latitude }}";
+        {% for point in interestPoints %}
+            var longitude = "{{ point.longitude }}";
+            var latitude = "{{ point.latitude }}";
             var longitude = parseFloat(longitude.replace(",", "."));
             var latitude = parseFloat(latitude.replace(",", "."));
             var fromLatLng = new L.LatLng(e.latlng['lat'], e.latlng['lng']);
             var toLatLng = new L.latLng(latitude, longitude);
             var distance_geo = fromLatLng.distanceTo(toLatLng)/1000;
-            if (distance_geo < km2m){
+            if (distance_geo < km){
+                console.log("distance_geo", distance_geo);
                 var popupContent = `
                     <div>
-                        <a href="{% url 'maps:InterestPointDetailView' points.id %}" ><h2>{{points.title}}</h2></a>
-                        <h5>{{points.short_description}}</h5>
+                        <a href="{% url 'maps:InterestPointDetailView' point.id %}" ><h2>{{point.title}}</h2></a>
+                        <h5>{{point.short_description}}</h5>
                     </div>
                 `;
-            {% if points.image %}
-                var customIcon = L.icon({
-                    iconUrl: '{{points.image.url}}',
-                    className: 'circle-image-marker',
-                    iconAnchor: [16, 16], // set the anchor point of the icon
-                    popupAnchor: [0, -8]
-                });
-                markersInterestPoint.addLayer(L.marker([latitude, longitude], {icon: customIcon}).bindPopup(popupContent));
-            {% else %}
-                markersInterestPoint.addLayer(L.marker([latitude, longitude]).bindPopup(popupContent));
-            {% endif %}
+                {% if point.image %}
+                console.log('{{point.name}}', '{{point.image.url}}');
+                    var customIcon = L.icon({
+                        iconUrl: '{{point.image.url}}',
+                        className: 'circle-image-marker',
+                        iconAnchor: [16, 16], // set the anchor point of the icon
+                        popupAnchor: [0, -8]
+                    });
+                    markersInterestPoint.addLayer(L.marker([latitude, longitude], {icon: customIcon}).bindPopup(popupContent));
+                {% else %}
+                    markersInterestPoint.addLayer(L.marker([latitude, longitude]).bindPopup(popupContent));
+                {% endif %}
+                var projectDiv = document.createElement("div");
+                projectDiv.className = "col-lg-4 col-md-6 col-sm-12 mb-4";
+                projectDiv.innerHTML = `
+                        <div class="card d-flex flex-column h-100">
+                            {% if point.image %}
+                                <img class="d-block w-100" src="{{ point.image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <a href="#"><h5 class="card-title">{{ point.title }}</h5></a>
+                                <p class="card-text">{{ point.short_description }}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">Categories:
+                                        {% for category in point.category.all %}
+                                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                element2.appendChild(projectDiv);
+                element2.style.display = "";
             }
         {% endfor %}
-        {% for points in CamperNightPoints %}
-            var longitude = "{{ points.longitude }}";
-            var latitude = "{{ points.latitude }}";
+        {% for point in CamperNightPoints %}
+            var longitude = "{{ point.longitude }}";
+            var latitude = "{{ point.latitude }}";
             var longitude = parseFloat(longitude.replace(",", "."));
             var latitude = parseFloat(latitude.replace(",", "."));
             var fromLatLng = new L.LatLng(e.latlng['lat'], e.latlng['lng']);
             var toLatLng = new L.latLng(latitude, longitude);
             var distance_geo = fromLatLng.distanceTo(toLatLng)/1000;
-            if (distance_geo < km2m){
+            if (distance_geo < km){
                 var popupContent = `
                     <div>
-                        <h2>{{points.title}}</h2>
-                        <h5>{{points.short_description}}</h5>
+                        <h2>{{point.title}}</h2>
+                        <h5>{{point.short_description}}</h5>
                     </div>
                 `;
                 var customIcon = L.icon({
@@ -152,16 +214,15 @@
 
         map.addLayer(markersInterestPoint);
         map.addLayer(markersCamperNightPoint);
-        var interest = "<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png' width='15' > " + "interest";
-        var night = "night <img src='/media/icons/chatgpt_autocaravana.png' style='width:30px; height: 30px; vertical-align: middle;'> night";
-        var overlayMaps = {};
-        overlayMaps[interest] = markersInterestPoint;
-        overlayMaps[night] = markersCamperNightPoint;
-        L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
-
         }
         first_time_location = first_time_location + 1;
+        if (first_time_location == 1) {first_time_location = 0}
 });
-
+var interest = "<img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png' width='15' > " + "interest";
+var night = "night <img src='/media/icons/chatgpt_autocaravana.png' style='width:30px; height: 30px; vertical-align: middle;'> night";
+var overlayMaps = {};
+overlayMaps[interest] = markersInterestPoint;
+overlayMaps[night] = markersCamperNightPoint;
+L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
 </script>
 {% endblock %}

@@ -61,7 +61,7 @@ jobs:
             --port=8000 \
             --service-account=cloud-run-django@optimum-shore-409919.iam.gserviceaccount.com \
             --set-env-vars ENV=pro \
-            --set-env-vars DEBUG=False \
+            --set-env-vars DEBUG=True \
             --set-env-vars ACCOUNT_DEFAULT_HTTP_PROTOCOL=https \
             --set-secrets 'DB_PASSWORD=DB_PASSWORD:latest' \
             --set-secrets 'DB_HOST=DB_HOST:latest' \
@@ -69,7 +69,3 @@ jobs:
             --set-secrets 'DB_USER=DB_USER:latest' \
             --set-secrets 'DB_PORT=DB_PORT:latest' \
             --set-secrets 'SERVICE_ACCOUNT=SERVICE_ACCOUNT:latest'
-          
-
-
-

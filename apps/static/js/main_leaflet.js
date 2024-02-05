@@ -30,8 +30,15 @@ var baseMaps = {
 
 
 var locateControl = L.control.locate({
-    flyTo: false,
+    flyTo: true,
     keepCurrentZoomLevel: false,
-    initialZoomLevel: 5
+    initialZoomLevel: 5,
+    strings: {
+        title: "Show me where I am",  // title of the locate control
+        metersUnit: "meters", // string for metric units
+        feetUnit: "feet", // string for imperial units
+        popup: "You are within {distance} {unit} from this point",  // text to appear if user clicks on circle
+        outsideMapBoundsMsg: "You seem located outside the boundaries of the map" // default message for onLocationOutsideMapBounds
+    },
     }).addTo(map);
 
