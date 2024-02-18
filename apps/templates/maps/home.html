@@ -44,11 +44,9 @@
                 {% for point in interestPoints.all %}
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <div class="card d-flex flex-column h-100">
-                            {% for img_point in interestPointsImages %}
-                                {% if img_point.interest_point_id.id == point.id %}
-                                    <img class="d-block w-100" src="{{ img_point.image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;">
+                                {% if point.image %}
+                                    <img class="d-block w-100" src="{{ point.image.url }}" alt="Card image cap" style="height: 200px; object-fit: cover;">
                                 {% endif %}
-                            {% endfor %}
                             <div class="card-body">
                                 <a href="{% url 'maps:InterestPointDetailView' point.id %}"><h5 class="card-title">{{ point.title }}</h5></a>
                                 <p class="card-text">{{ point.short_description }}</p>
